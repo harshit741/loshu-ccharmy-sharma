@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES — edit here or via src/lib/theme.ts
+   ============================================================ */
+:root {
+  /* Brand palette */
+  --color-rose: ;
+  --color-cream: ;
+  --color-sage: ;
+  --color-teal: ;
+
+  --color-rose-dark: ;
+  --color-rose-light: ;
+  --color-teal-dark: ;
+  --color-teal-light: ;
+  --color-sage-light: ;
+
+  /* Semantic tokens */
+  --color-bg: ;
+  --color-surface: ;
+  --color-border: ;
+  --color-ink: ;
+  --color-muted: ;
+  --color-accent: ;
+  --color-accent2: ;
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Spacing */
+  --section-padding: 5rem 1.5rem;
+  --max-width: 1200px;
+}
+
+.dark {
+  --color-bg:      #091127;
+  --color-surface: #121B38;
+  --color-border:  #26345E;
+  --color-ink:     #EFF3FF;
+  --color-muted:   #A9B5DA;
+  --color-accent:  #14177D;
+  --color-accent2: #4B7BFF;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .section-padding { padding: var(--section-padding); }
+  .max-container { max-width: var(--max-width); margin-inline: auto; }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-rose) 0%, var(--color-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(16px);
+    background-color: rgba(28, 25, 23, 0.7);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  }
+
+  .shimmer-bg {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.3) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* ============================================================
+   LOSHU GRID
+   ============================================================ */
+.loshu-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-border);
+  border-radius: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background: var(--color-surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.loshu-cell.active {
+  background: linear-gradient(135deg, var(--color-rose) 0%, var(--color-teal) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-rose) 40%, transparent);
+}
+
+.loshu-cell.missing {
+  background: var(--color-sage-light);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.loshu-cell .cell-tag {
+  position: absolute;
+  left: 50%;
+  bottom: 0.55rem;
+  transform: translateX(-50%);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  color: white;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.loshu-cell.group:hover .cell-tag {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-0.1rem);
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-rose);
+  border-radius: 99px;
+}
+
+/* ============================================================
+   FOCUS STYLES (accessibility)
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   MARQUEE ANIMATION
+   ============================================================ */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
